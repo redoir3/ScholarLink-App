@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScholarLink - Local, Attainable Scholarships</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; background: #f0f8ff; }
+        h1 { color: #007bff; text-align: center; }
+        button { display: block; margin: 30px auto; padding: 15px 30px; background: #28a745; color: white; border: none; font-size: 20px; cursor: pointer; border-radius: 8px; }
+        #results { display: none; }
+        .scholarship-card { background: white; border: 1px solid #ccc; padding: 20px; margin: 20px 0; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .contact { font-weight: bold; color: #28a745; font-size: 1.1em; }
+        a { color: #007bff; }
+    </style>
+</head>
+<body>
+    <h1>ScholarLink: Connecting You to Local, Real Scholarships</h1>
+    <p style="text-align:center; font-size:18px;">Click for example 2026 matches (national with local ties). Share your details for hyper-local personalization!</p>
+    
+    <button id="findMatches">Find My Matches</button>
+    
+    <div id="results"></div>
+
+    <script>
+        document.getElementById('findMatches').addEventListener('click', function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <h2 style="text-align:center;">Example 2026 Scholarship Matches</h2>
+                <p style="text-align:center;">These are real, attainable awards (low competition via locality focus). Reach out to contacts—build relationships for better odds!</p>
+
+                <div class="scholarship-card">
+                    <h3>Union Plus Scholarship – $500–$4,000</h3>
+                    <p><strong>Deadline:</strong> January 31, 2026 | <strong>Location:</strong> National (with local union ties across U.S./territories)</p>
+                    <p><strong>Why attainable:</strong> For union members/families (low applicant pool if your family qualifies); focuses on leadership/service—great for community-involved students.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Email scholarships@unionplus.org (Scholarship Team) – Share your family's union story and excels; they offer re-application support and networking!</p>
+                    <p><a href="https://www.unionplus.org/benefits/education/union-plus-scholarships" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <div class="scholarship-card">
+                    <h3>AbbVie Community Equity Scholarship – $2,500–$5,000</h3>
+                    <p><strong>Deadline:</strong> January 13, 2026 | <strong>Location:</strong> Local to Massachusetts</p>
+                    <p><strong>Why attainable:</strong> For undergrad sophomores in MA (small pool); emphasizes equity/community—ideal for first-gen/low-income.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Contact Scholarship America at scholarships@scholarshipamerica.org (Program Team) – Discuss your MA roots and character; fosters ongoing equity networks!</p>
+                    <p><a href="https://scholarshipamerica.org/students/browse-scholarships/" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <div class="scholarship-card">
+                    <h3>Alliant Energy Innovation Scholarship – $1,000</h3>
+                    <p><strong>Deadline:</strong> February 3, 2026 | <strong>Location:</strong> Local to Iowa/Wisconsin</p>
+                    <p><strong>Why attainable:</strong> For STEM students in IA/WI (regional focus reduces applicants); highlights innovation—perfect for excelling in sciences.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Email scholarships@scholarshipamerica.org (Scholarship America Team) – Share your STEM story and local ties; leads to energy sector mentorship!</p>
+                    <p><a href="https://scholarshipamerica.org/students/browse-scholarships/" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <div class="scholarship-card">
+                    <h3>NJCPA College Scholarship – $6,500</h3>
+                    <p><strong>Deadline:</strong> January 7, 2026 | <strong>Location:</strong> Local to New Jersey</p>
+                    <p><strong>Why attainable:</strong> For NJ accounting students (state-specific, lower competition); merit-based for undergrads.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Contact NJCPA at info@njcpa.org (Scholarship Coordinator) – Highlight your NJ background and excels; connects to professional networks!</p>
+                    <p><a href="https://www.scholarships.com/financial-aid/college-scholarships/scholarship-directory/deadline/deadline-in-january" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <div class="scholarship-card">
+                    <h3>Virginia Arts Festival Model NATO Challenge – $2,500</h3>
+                    <p><strong>Deadline:</strong> January 7, 2026 | <strong>Location:</strong> Local to Virginia</p>
+                    <p><strong>Why attainable:</strong> For VA students in arts/leadership (niche pool); focuses on global awareness.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Email info@vafest.org (Program Team) – Share your VA story and leadership; opens arts mentorship doors!</p>
+                    <p><a href="https://www.scholarships.com/financial-aid/college-scholarships/scholarship-directory/deadline/deadline-in-january" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <div class="scholarship-card">
+                    <h3>UNCF Georgia/Kentucky/Tennessee Scholarship – Varies</h3>
+                    <p><strong>Deadline:</strong> Upcoming 2026 cycles (check site) | <strong>Location:</strong> Local to GA/KY/TN</p>
+                    <p><strong>Why attainable:</strong> For juniors in GA/KY/TN (regional, minority-focused); supports underrepresented students.</p>
+                    <p class="contact"><strong>Build a Relationship:</strong> Email scholarships@uncf.org (UNCF Team) – Discuss your heritage and excels; UNCF provides lifelong alumni networks!</p>
+                    <p><a href="https://uncf.org/scholarships" target="_blank">Apply/Details Here</a></p>
+                </div>
+
+                <p style="text-align:center; font-style:italic;">These examples show low-competition local focus. Share your details for personalized, state-specific matches!</p>
+            `;
+        });
+    </script>
+</body>
+</html>
