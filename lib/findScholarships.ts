@@ -83,5 +83,8 @@ export async function findScholarships(profile: StudentProfile) {
     console.log(`   • ${s["Scholarship Name"]} (${s["Provider/Org"]}) → ${s.match_score}`);
   });
 
-  return scored.filter(s => s["Scholarship Name"] && s["Contact Name / Email / Phone / URL"]);
+  return scored.filter((s: any) => 
+  s["Scholarship Name"] && 
+  s["Contact Name / Email / Phone / URL"] // whatever the full condition is
+);
 }

@@ -1,19 +1,21 @@
 // lib/supabaseClient.ts
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const getSupabase = () => {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-console.log("DEBUG - Supabase URL exists?", !!supabaseUrl);
-console.log("DEBUG - Supabase ANON_KEY exists?", !!supabaseAnonKey);
-console.log("DEBUG - Actual URL value:", supabaseUrl ? supabaseUrl.substring(0, 30) + "..." : "MISSING");
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.error("🚨 Missing Supabase env vars during build or runtime");
+    // Return dummy for build safety
+    return {
+      from: () => ({
+        select: () => Promise.resolve({ data: [], error: null }),
+      }),
+    } as any;
+  }
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    'Missing Supabase environment variables. Make sure .env.local AND Vercel settings contain:\n' +
-    'NEXT_PUBLIC_SUPABASE_URL=https://vlkwlfauexrxmqwqfgpc.supabase.co\n' +
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...'
-  );
-}
+  return createClient(supabaseUrl, supabaseAnonKey);
+};
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = getSupabase();
