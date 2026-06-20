@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { findScholarships, StudentProfile } from '@/lib/findScholarships';
 import ScholarshipCard from '@/components/ScholarshipCard';
 
 export default function Home() {
+
   const [formData, setFormData] = useState({
     school: '',
     hometown: '',
