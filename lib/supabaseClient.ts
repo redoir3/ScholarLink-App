@@ -1,16 +1,20 @@
-// lib/supabaseClient.ts
-// Stabilized: Only export creator. Called explicitly in browser context (avoids prerender/server errors).
+// lib/supabaseClient.ts — Hybrid for compatibility + stability
 import { createBrowserClient } from '@supabase/ssr';
 
+let supabaseInstance: any = null;
+
 export function createSupabaseClient() {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error(
-      'Missing Supabase environment variables. In Vercel: Project Settings → Environment Variables → add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY for Production + Preview.'
-    );
+  if (!supabaseInstance) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    if (!url || !key) throw new Error('Missing Supabase env vars — check Vercel settings.');
+    supabaseInstance = createBrowserClient(url, key);
   }
-
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
+  return supabaseInstance;
 }
+
+// For files importing { supabase } (e.g. SavedScholarships)
+export const supabase = {
+  from: (...args: any[]) => createSupabaseClient().from(...args),
+  // Proxy other common methods if needed, or just use creator in new code
+};
