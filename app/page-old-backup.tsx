@@ -40,7 +40,7 @@ export default function HomePage() {
               🌍 Find Scholarships in My City <ArrowRight className="ml-2" />
             </Button>
           </Link>
-          <Link href="/matcher">
+          <Link href="/">
             <Button size="lg" variant="outline" className="text-lg px-10 py-7 rounded-2xl">
               Start Full Matching Questionnaire
             </Button>

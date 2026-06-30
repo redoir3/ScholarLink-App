@@ -1,0 +1,15 @@
+---
+pid: 12056
+cwd: "C:\Users\Zavxd\scholarship-app"
+command: "Set-Location C:\\Users\\Zavxd\\scholarship-app; npm run start"
+started_at: 2026-06-29T20:01:19.249Z
+running_for_ms: 1614995  
+---
+
+> scholarship-app@0.1.0 start
+> next start
+
+▲ Next.js 16.2.6
+- Local:         http://localhost:3000
+- Network:       http://172.20.10.2:3000
+✓ Ready in 411ms
