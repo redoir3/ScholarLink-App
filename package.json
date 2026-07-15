@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "import:scholarships": "node scripts/import-curated-csv.js",
+    "scrape:pa": "node scripts/scrape-pa-niche.js",
     "seed:leads": "node scripts/seed-research-leads.js",
     "enrich:geo": "node scripts/enrich-geo-from-tags.js",
     "inspect:db": "node scripts/inspect-db.js",

@@ -133,7 +133,7 @@ function SubmitForm() {
       setMessage('Error: ' + error.message);
     } else {
       setMessage(
-        '✅ Submission received. Our team will verify it against your organization before it goes live — no automated scraping, human review only.'
+        '✅ Submission received. Our team will verify it against your organization before it goes live — org submissions get priority human review.'
       );
       setFormData(emptyForm);
       setStep(1);

@@ -14,6 +14,10 @@ export default function SiteFooter() {
           <p className="mt-4 max-w-xs text-sm leading-relaxed text-gray-700">
             Local scholarships. Real contacts. Higher chances of winning.
           </p>
+          <p className="mt-3 max-w-xs text-xs leading-relaxed text-gray-500">
+            Not affiliated with any listed organization. Listings are for informational purposes
+            only — always apply via the official source.
+          </p>
         </div>
 
         <div>
@@ -84,8 +88,11 @@ export default function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-blue-100/80 py-5 text-center text-xs text-gray-600">
-        © 2026 LocalLink · Verified local opportunities
+      <div className="border-t border-blue-100/80 px-4 py-5 text-center text-xs text-gray-600">
+        © 2026 LocalLink · Informational listings only · Not affiliated with award sponsors ·{' '}
+        <Link href="/terms" className="underline hover:text-primary">
+          Terms
+        </Link>
       </div>
     </footer>
   );

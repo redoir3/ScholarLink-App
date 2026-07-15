@@ -335,7 +335,15 @@ export async function findScholarships(profile: StudentProfile) {
           '',
         contact_email: sch['contact_email'] || sch['Contact Email'] || undefined,
         contact_person: sch['contact_person'] || sch['Contact Person'] || undefined,
-        contact_url: sch['contact_url'] || sch['Contact URL'] || undefined,
+        contact_url:
+          sch['contact_url'] ||
+          sch['Contact URL'] ||
+          sch['Application Link'] ||
+          sch['source_url'] ||
+          undefined,
+        'Application Link':
+          sch['Application Link'] || sch['contact_url'] || sch['source_url'] || '',
+        source_url: sch['source_url'] || sch['Application Link'] || undefined,
         amount: sch.amount ?? sch['Amount'] ?? null,
         match_score: calculateMatchScore(sch, profile),
         _hasContact: Boolean(norm.contact),

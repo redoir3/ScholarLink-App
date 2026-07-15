@@ -1,17 +1,20 @@
 # LocalLink Ethical Data Growth Playbook
 
-How we grow a national, niche, **local** scholarship database **without scraping**, while staying legal and aligned with the product promise (real contacts, obtainable awards).
+How we grow a national, niche, **local** scholarship database while staying legal and aligned with the product promise (real contacts, obtainable awards). Legal counsel has approved careful collection of public primary-source listing data; we still avoid commercial aggregators and bulk proprietary dumps.
+
+**Current geographic focus:** thorough **Pennsylvania** coverage first (Pittsburgh + Philadelphia niche depth), then expand state by state.
 
 ---
 
 ## Principles
 
-1. **No automated scraping** of third-party websites, scholarship aggregators, or PDF dumps.
-2. **No bulk copying** of another database’s proprietary listings.
-3. **Every live row is human-verified** (or org-submitted) with a provenance note.
+1. **No scraping of commercial aggregators** (Fastweb, Scholarships.com, Cappex, etc.) or bulk proprietary database dumps.
+2. **Allowlisted public primary sources only** for automated collection (community foundations, public agencies, official org pages) via `npm run scrape:pa`.
+3. **Every live row has provenance** (`source_url`, `source_method`, last verified date).
 4. **Prefer primary sources**: the awarding organization, their official PDF/form, or a direct confirmation email.
 5. **Students win through relationships** — we store contact people, not just “apply here” links.
 6. **When unsure, leave it out** or mark as a research lead — never invent awards.
+7. **LocalLink is not affiliated** with any listed sponsor; listings are informational only.
 
 ---
 
@@ -66,6 +69,23 @@ Do **not** store personal student data from applications. Do not republish copyr
 
 ---
 
+## Automated PA collection (approved pattern)
+
+```bash
+# Seed + allowlisted live fetches → Supabase scholarships (same columns as CSV import)
+npm run scrape:pa
+
+# Preview without writing
+npm run scrape:pa -- --dry-run
+
+# JSON seed only (no HTTP)
+npm run scrape:pa -- --seed-only
+```
+
+- Seed file: `data/imports/pa-pittsburgh-philadelphia-niche.json`
+- Script: `scripts/scrape-pa-niche.js`
+- `source_method`: `public_web_scrape` | `public_agency` | `human_primary_source` | …
+
 ## Channels we avoid
 
 | Avoid | Why |
@@ -75,6 +95,7 @@ Do **not** store personal student data from applications. Do not republish copyr
 | Copying from closed Facebook groups without permission | Privacy / terms |
 | Inventing contact emails | Harms trust + legality |
 | Mass emailing scraped personal addresses | CAN-SPAM / reputation |
+| High-rate bots without delays | Server abuse / blocks |
 
 ---
 

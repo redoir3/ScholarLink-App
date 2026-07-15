@@ -17,6 +17,7 @@ const ALLOWED_METHODS = new Set([
   'human_primary_source',
   'partner',
   'public_agency',
+  'public_web_scrape',
 ]);
 
 function parseCsv(text) {
@@ -148,8 +149,8 @@ function toDbRow(obj, method) {
     notes_for_email:
       obj['Notes (for Email Builder Personalization)'] || obj.notes_for_email || null,
     'Last Verified Date': obj['Last Verified Date'] || new Date().toISOString().slice(0, 10),
-    source_url: obj.source_url || obj['Application Link'] || null,
-    source_method: method,
+    // source_url / source_method require sql/001_scholarship_growth.sql —
+    // always store official URL on Application Link + contact_url for apply buttons.
   };
 }
 

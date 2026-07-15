@@ -68,8 +68,10 @@ export default function Manifesto() {
             <h2 className="text-2xl font-bold text-primary">Our promise</h2>
             <p className="mt-3 text-lg leading-relaxed text-gray-700">
               We feature verified scholarships with real contact people when available. Submissions
-              are reviewed. We grow our database ethically — no scraping — through organizations,
-              human research, and community partnerships.
+              are reviewed. We grow our database carefully through organization submissions, human
+              research of primary sources, community partnerships, and limited collection of public
+              listing data for local niche awards — always for student discovery, not affiliation
+              with any sponsor.
             </p>
           </section>
 

@@ -36,7 +36,7 @@ ALTER TABLE public.scholarships
   ADD COLUMN IF NOT EXISTS verified_by text;
 
 COMMENT ON COLUMN public.scholarships.source_method IS
-  'How this row was obtained: org_submission | human_primary_source | partner | public_agency';
+  'How this row was obtained: org_submission | human_primary_source | partner | public_agency | public_web_scrape';
 
 -- Helpful indexes for matcher / local search
 CREATE INDEX IF NOT EXISTS scholarships_state_idx ON public.scholarships (state);

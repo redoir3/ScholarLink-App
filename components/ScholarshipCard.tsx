@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Heart, Mail, ExternalLink, Copy, X, Award, Lock } from 'lucide-react';
+import { Heart, Mail, ExternalLink, Copy, X, Award, Lock, Globe } from 'lucide-react';
 import { useSavedScholarships } from '@/hooks/useSavedScholarships';
 import type { StudentProfile } from '@/lib/findScholarships';
 
@@ -22,6 +22,7 @@ interface Scholarship {
   contact_email?: string;
   contact_url?: string;
   contact_person?: string;
+  source_url?: string;
   match_score?: number;
   [key: string]: unknown;
 }
@@ -29,8 +30,61 @@ interface Scholarship {
 interface Props {
   scholarship: Scholarship;
   studentProfile?: StudentProfile;
-  /** demo = hide contacts & outreach; full = everything for signed-in users */
+  /** demo = hide private contacts & outreach; full = everything for signed-in users */
   accessMode?: 'demo' | 'full';
+}
+
+/** Normalize bare domains and paths into openable https URLs. Returns null if not linkable. */
+function normalizeExternalUrl(raw?: string | null): string | null {
+  if (!raw) return null;
+  let s = String(raw).trim();
+  if (!s) return null;
+
+  // Prefer first URL-like token if the field has prose mixed in
+  const urlMatch = s.match(
+    /(?:https?:\/\/)?(?:www\.)?[a-z0-9][-a-z0-9.]+\.[a-z]{2,}(?:\/[^\s,;)|]*)?/i
+  );
+  if (urlMatch) s = urlMatch[0];
+  else return null;
+
+  // Skip vague non-URLs
+  if (/^(search via|local portals|facebook)/i.test(s)) return null;
+  if (s.includes(' or ') && !s.includes('/')) {
+    // e.g. "woodworkingnetwork.com or scholarships.com" — take first host
+    s = s.split(/\s+or\s+/i)[0].trim();
+  }
+
+  if (s.startsWith('http://') || s.startsWith('https://')) return s;
+  if (s.startsWith('www.')) return `https://${s}`;
+  // Domain-like without scheme
+  if (/^[a-z0-9][-a-z0-9.]*\.[a-z]{2,}/i.test(s)) return `https://${s}`;
+  return null;
+}
+
+function pickApplyUrl(scholarship: Scholarship): string | null {
+  return (
+    normalizeExternalUrl(scholarship['Application Link']) ||
+    normalizeExternalUrl(scholarship.contact_url) ||
+    normalizeExternalUrl(scholarship.source_url) ||
+    normalizeExternalUrl(scholarship['Contact Name / Email / Phone / URL'])
+  );
+}
+
+function parseTags(raw: unknown): string[] {
+  if (raw == null || raw === '') return [];
+  if (Array.isArray(raw)) {
+    return raw.map((t) => String(t).trim()).filter(Boolean);
+  }
+  const s = String(raw).trim();
+  if (!s) return [];
+  // Prefer comma-separated tags; fall back to a single tag so long phrases stay one chip
+  if (s.includes(',')) {
+    return s
+      .split(',')
+      .map((t) => t.trim())
+      .filter(Boolean);
+  }
+  return [s];
 }
 
 export default function ScholarshipCard({
@@ -49,7 +103,9 @@ export default function ScholarshipCard({
     scholarship['Why Obtainable'] ||
     scholarship['Why Obtainable / Relationship Angle'] ||
     '';
-  const tags = scholarship['Eligibility Tags'] || '';
+  const tagList = parseTags(scholarship['Eligibility Tags']);
+  const applyUrl = pickApplyUrl(scholarship);
+
   const amountDisplay =
     scholarship.amount != null && scholarship.amount !== ''
       ? typeof scholarship.amount === 'number'
@@ -73,11 +129,12 @@ export default function ScholarshipCard({
       return;
     }
     if (contact.includes('@')) {
-      window.location.href = `mailto:${contact}?subject=Inquiry about ${name}`;
-    } else if (contact.startsWith('http') || contact.startsWith('www')) {
-      window.open(contact.startsWith('http') ? contact : 'https://' + contact, '_blank');
+      const email = contact.match(/[\w.+-]+@[\w.-]+\.\w+/)?.[0] || contact;
+      window.location.href = `mailto:${email}?subject=Inquiry about ${name}`;
     } else {
-      alert(`Contact: ${contact}`);
+      const url = normalizeExternalUrl(contact);
+      if (url) window.open(url, '_blank', 'noopener,noreferrer');
+      else alert(`Contact: ${contact}`);
     }
   };
 
@@ -118,53 +175,85 @@ export default function ScholarshipCard({
   };
 
   return (
-    <div className="flex h-full min-w-0 flex-col overflow-hidden rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition-all hover:shadow-md sm:p-6">
-      <div className="min-w-0 flex-1 space-y-4">
-        <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0 flex-1">
-            <h3 className="break-words text-xl font-semibold leading-snug text-gray-900 sm:text-2xl">
-              {name}
-            </h3>
-            <p className="mt-1 break-words font-medium text-gray-600">{provider}</p>
-          </div>
-          <div className="flex shrink-0 flex-wrap items-center gap-2">
-            {amountDisplay && (
-              <span className="whitespace-nowrap text-xl font-bold text-emerald-600 sm:text-2xl">
-                {amountDisplay}
-              </span>
-            )}
-            {scholarship.match_score != null && scholarship.match_score > 0 && (
-              <div className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800">
-                <Award size={16} className="shrink-0" /> {scholarship.match_score}%
-              </div>
-            )}
-            {demo && (
-              <div className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
-                <Lock size={12} /> Demo
-              </div>
-            )}
+    <div className="flex h-full min-w-0 w-full flex-col overflow-hidden rounded-2xl border border-blue-100 bg-white p-5 shadow-sm transition-all hover:shadow-md sm:p-6">
+      <div className="min-w-0 w-full flex-1 space-y-4">
+        {/* Title block: stack on small / when amount is long so text never collapses to vertical letters */}
+        <div className="flex min-w-0 w-full flex-col gap-3">
+          <div className="flex min-w-0 w-full flex-wrap items-start justify-between gap-x-4 gap-y-2">
+            <div className="min-w-0 max-w-full flex-1 basis-[min(100%,16rem)]">
+              {applyUrl ? (
+                <a
+                  href={applyUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group inline-flex max-w-full items-start gap-1.5"
+                >
+                  <h3 className="max-w-full text-xl font-semibold leading-snug text-gray-900 underline-offset-2 group-hover:text-primary group-hover:underline sm:text-2xl [overflow-wrap:anywhere]">
+                    {name}
+                  </h3>
+                  <ExternalLink className="mt-1.5 size-4 shrink-0 text-primary opacity-70 group-hover:opacity-100" />
+                </a>
+              ) : (
+                <h3 className="max-w-full text-xl font-semibold leading-snug text-gray-900 sm:text-2xl [overflow-wrap:anywhere]">
+                  {name}
+                </h3>
+              )}
+              <p className="mt-1 max-w-full font-medium text-gray-600 [overflow-wrap:anywhere]">
+                {provider}
+              </p>
+            </div>
+
+            <div className="flex max-w-full shrink-0 flex-wrap items-center justify-end gap-2">
+              {amountDisplay && (
+                <span className="max-w-full text-right text-lg font-bold leading-snug text-emerald-600 sm:text-xl [overflow-wrap:anywhere]">
+                  {amountDisplay}
+                </span>
+              )}
+              {scholarship.match_score != null && scholarship.match_score > 0 && (
+                <div className="inline-flex items-center gap-1 rounded-full bg-amber-100 px-3 py-1 text-sm font-medium text-amber-800">
+                  <Award size={16} className="shrink-0" /> {scholarship.match_score}%
+                </div>
+              )}
+              {demo && (
+                <div className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  <Lock size={12} /> Demo
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         {why && (
-          <p className="break-words text-sm leading-relaxed text-gray-700 italic">
+          <p className="max-w-full text-sm leading-relaxed text-gray-700 italic [overflow-wrap:anywhere]">
             &ldquo;{why}&rdquo;
           </p>
         )}
 
-        {tags && (
-          <div className="flex flex-wrap gap-2">
-            {tags.split(',').map((tag: string, i: number) =>
-              tag.trim() ? (
-                <span
-                  key={i}
-                  className="max-w-full break-words rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800 ring-1 ring-amber-100"
-                >
-                  {tag.trim()}
-                </span>
-              ) : null
-            )}
+        {tagList.length > 0 && (
+          <div className="flex max-w-full flex-wrap gap-2">
+            {tagList.map((tag, i) => (
+              <span
+                key={`${tag}-${i}`}
+                className="max-w-full rounded-full bg-amber-50 px-3 py-1 text-xs font-medium leading-snug text-amber-800 ring-1 ring-amber-100 [overflow-wrap:anywhere]"
+              >
+                {tag}
+              </span>
+            ))}
           </div>
+        )}
+
+        {/* Official apply / site link — always available (public listing info) */}
+        {applyUrl && (
+          <a
+            href={applyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm font-semibold text-emerald-900 transition hover:bg-emerald-100 sm:w-auto"
+          >
+            <Globe className="size-4 shrink-0" />
+            Apply / official page
+            <ExternalLink className="size-3.5 shrink-0 opacity-70" />
+          </a>
         )}
       </div>
 
@@ -174,7 +263,8 @@ export default function ScholarshipCard({
             <Lock className="mt-0.5 size-4 shrink-0 text-primary" />
             <span>
               <strong className="text-gray-900">Demo preview</strong> — contact details, outreach
-              tools, and save-to-account are unlocked when you sign in as a student.
+              tools, and save-to-account are unlocked when you sign in as a student. Official apply
+              links stay available above.
             </span>
           </p>
           <Link href="/login?next=/matcher&intent=full">
@@ -213,17 +303,23 @@ export default function ScholarshipCard({
           {(scholarship.contact_person ||
             scholarship['Contact Name / Email / Phone / URL'] ||
             scholarship.contact_email) && (
-            <div className="mt-5 break-words rounded-xl border border-blue-100 bg-blue-50 p-4">
+            <div className="mt-5 max-w-full rounded-xl border border-blue-100 bg-blue-50 p-4 [overflow-wrap:anywhere]">
               <p className="text-sm font-semibold text-gray-800">Contact for relationship-building</p>
               <p className="mt-1 font-medium text-gray-900">
                 {scholarship.contact_person ||
-                  scholarship['Contact Name / Email / Phone / URL']?.split('/')[0] ||
+                  scholarship['Contact Name / Email / Phone / URL']?.split(/[\/–-]/)[0]?.trim() ||
                   'Organizer'}
               </p>
               {(scholarship.contact_email ||
                 scholarship['Contact Name / Email / Phone / URL']?.includes('@')) && (
                 <a
-                  href={`mailto:${scholarship.contact_email || scholarship['Contact Name / Email / Phone / URL']}?subject=Introduction - Interest in ${name}`}
+                  href={`mailto:${
+                    scholarship.contact_email ||
+                    scholarship['Contact Name / Email / Phone / URL']?.match(
+                      /[\w.+-]+@[\w.-]+\.\w+/
+                    )?.[0] ||
+                    ''
+                  }?subject=Introduction - Interest in ${name}`}
                   className="mt-3 inline-flex w-full min-h-11 items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
                 >
                   Email organizer
@@ -245,7 +341,10 @@ export default function ScholarshipCard({
               <div className="max-h-80 overflow-auto whitespace-pre-wrap break-words rounded-xl border border-amber-100 bg-white p-4 text-sm text-gray-800">
                 {draft}
               </div>
-              <Button onClick={() => void copyDraft()} className="mt-3 w-full rounded-xl bg-emerald-600 hover:bg-emerald-700">
+              <Button
+                onClick={() => void copyDraft()}
+                className="mt-3 w-full rounded-xl bg-emerald-600 hover:bg-emerald-700"
+              >
                 <Copy size={18} className="mr-2" /> {copied ? 'Copied!' : 'Copy draft'}
               </Button>
             </div>

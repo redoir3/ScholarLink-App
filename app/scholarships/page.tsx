@@ -81,6 +81,12 @@ export default async function ScholarshipsPage({
           </div>
         )}
 
+        <p className="rounded-2xl border border-slate-200 bg-white/80 px-5 py-3 text-xs leading-relaxed text-slate-600">
+          LocalLink is not affiliated with any organization whose scholarship appears here. Listings
+          are for informational purposes only — use each card&apos;s official apply link and verify
+          details with the sponsor before applying.
+        </p>
+
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           {scholarships && scholarships.length > 0 ? (
             scholarships.map((scholarship: { id?: string | number; ['Scholarship Name']?: string }) => (

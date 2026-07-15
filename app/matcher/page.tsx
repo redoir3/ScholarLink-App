@@ -514,11 +514,18 @@ export default function MatcherPage() {
                 </CardTitle>
                 <CardDescription className="text-base text-gray-600">
                   {results.length > 0
-                    ? 'Sorted by relevance. Higher scores mean a closer fit to your characteristics.'
+                    ? 'Sorted by relevance. Higher scores mean a closer fit to your characteristics. Use Apply / official page on each card to open the real application site.'
                     : 'Try broadening fields of study, checking a nearby city, or exploring Quick local search. New awards are added regularly.'}
                 </CardDescription>
               </CardHeader>
               <CardContent className="pt-6">
+                {results.length > 0 && (
+                  <p className="mb-6 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-xs leading-relaxed text-slate-700">
+                    LocalLink is not affiliated with any organization whose scholarship is listed.
+                    Results are for informational purposes only — confirm eligibility and apply on
+                    the official site.
+                  </p>
+                )}
                 <div className="mb-6 flex flex-wrap gap-2">
                   {profile?.city && (
                     <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-800">

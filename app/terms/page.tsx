@@ -23,6 +23,19 @@ export default function TermsPage() {
           </section>
 
           <section className="space-y-3">
+            <h2 className="text-xl font-bold text-gray-900">No affiliation; informational only</h2>
+            <p>
+              LocalLink is <strong>not affiliated with, endorsed by, or sponsored by</strong> any
+              organization, foundation, school, government agency, or other entity whose scholarship
+              may appear on this site. Listings are provided <strong>for informational purposes
+              only</strong>. Eligibility rules, deadlines, amounts, and application processes are
+              controlled exclusively by the awarding organization. Always verify details and apply
+              through the official source linked on each listing (or on the organization&apos;s own
+              website).
+            </p>
+          </section>
+
+          <section className="space-y-3">
             <h2 className="text-xl font-bold text-gray-900">Accounts</h2>
             <ul className="list-disc space-y-2 pl-5">
               <li>
