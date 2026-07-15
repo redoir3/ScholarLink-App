@@ -55,6 +55,16 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -142,4 +152,12 @@
   .btn-accent {
     @apply bg-accent text-accent-foreground hover:bg-green-700 px-6 py-3 rounded-xl font-medium transition;
   }
+}
+
+/* Soft page wash used across marketing pages */
+.page-wash {
+  background:
+    radial-gradient(ellipse 80% 50% at 10% -10%, rgb(191 219 254 / 0.55), transparent),
+    radial-gradient(ellipse 60% 40% at 100% 0%, rgb(167 243 208 / 0.35), transparent),
+    linear-gradient(to bottom, #f8fafc, #ffffff 40%, #eff6ff);
 }

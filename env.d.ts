@@ -3,6 +3,9 @@ declare namespace NodeJS {
   interface ProcessEnv {
     NEXT_PUBLIC_SUPABASE_URL: string;
     NEXT_PUBLIC_SUPABASE_ANON_KEY: string;
-    // Add any other env vars here later if needed
+    SUPABASE_SERVICE_ROLE_KEY?: string;
+    NEXT_PUBLIC_ADMIN_EMAIL?: string;
+    ADMIN_EMAIL?: string;
+    ADMIN_PASSWORD?: string;
   }
 }

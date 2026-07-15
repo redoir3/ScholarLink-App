@@ -1,13 +1,2 @@
-// client.ts (or wherever createBrowserClient is)
-import { createBrowserClient } from '@supabase/ssr';
-
-export const createClient = () => {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    throw new Error('Missing Supabase environment variables');
-  }
-
-  return createBrowserClient(supabaseUrl, supabaseAnonKey);
-};
+// Re-export singleton only — never create a second GoTrueClient
+export { createSupabaseClient as createClient, createSupabaseClient, supabase } from '@/lib/supabaseClient';

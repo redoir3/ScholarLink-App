@@ -1,0 +1,89 @@
+{
+  "_comment": "These are OUTREACH TARGETS only — not scholarships. Seed patterns for metros; humans research local chapters and contact them. No scraping.",
+  "org_types": [
+    {
+      "org_type": "VFW Post / Auxiliary",
+      "why_target": "Many posts and auxiliaries fund small local awards with low applicant pools.",
+      "suggested_search_terms": "VFW scholarship [city] [state], VFW auxiliary scholarship [county]"
+    },
+    {
+      "org_type": "American Legion Post / Auxiliary",
+      "why_target": "Local posts often run oratorical / school awards separate from national programs.",
+      "suggested_search_terms": "American Legion scholarship [city], Legion auxiliary [county] scholarship"
+    },
+    {
+      "org_type": "Rotary Club",
+      "why_target": "Nearly every metro has clubs that fund high-school or college awards.",
+      "suggested_search_terms": "Rotary Club of [city] scholarship"
+    },
+    {
+      "org_type": "Lions Club",
+      "why_target": "Strong local service awards; often county/high-school based.",
+      "suggested_search_terms": "Lions Club scholarship [city] [state]"
+    },
+    {
+      "org_type": "Kiwanis Club",
+      "why_target": "Youth-focused; frequent small local scholarships.",
+      "suggested_search_terms": "Kiwanis scholarship [city]"
+    },
+    {
+      "org_type": "Elks Lodge",
+      "why_target": "Lodge-level and state Elks awards; local residency often required.",
+      "suggested_search_terms": "Elks Lodge scholarship [city], [state] Elks scholarship"
+    },
+    {
+      "org_type": "Community Foundation",
+      "why_target": "Often administer dozens of donor funds for one region — high yield per partnership.",
+      "suggested_search_terms": "[city] community foundation scholarships, [county] community foundation"
+    },
+    {
+      "org_type": "County Bar Association / Law Firm Foundation",
+      "why_target": "Niche legal-interest or local-HS awards; under-listed nationally.",
+      "suggested_search_terms": "[county] bar association scholarship, [city] law firm scholarship foundation"
+    },
+    {
+      "org_type": "Hospital / Healthcare Foundation",
+      "why_target": "Nursing and allied-health local awards with real contacts.",
+      "suggested_search_terms": "[hospital name] foundation scholarship, [city] nursing scholarship foundation"
+    },
+    {
+      "org_type": "Credit Union / Local Bank Foundation",
+      "why_target": "Member or community-service scholarships; geographic limits.",
+      "suggested_search_terms": "[city] credit union scholarship, [bank] foundation scholarship [state]"
+    },
+    {
+      "org_type": "Chamber of Commerce",
+      "why_target": "Business/entrepreneurship local student awards.",
+      "suggested_search_terms": "[city] chamber of commerce scholarship"
+    },
+    {
+      "org_type": "Fire Department Auxiliary / Public Safety Association",
+      "why_target": "Hyper-local residency awards; often unknown outside the town.",
+      "suggested_search_terms": "[city] fire department scholarship, [city] police association scholarship"
+    },
+    {
+      "org_type": "AAUW / Zonta / BPW Branch",
+      "why_target": "Women's equity branches fund local continuing-education awards.",
+      "suggested_search_terms": "AAUW [city] scholarship, Zonta [city] scholarship"
+    },
+    {
+      "org_type": "Labor Union Local / Trade Association",
+      "why_target": "Member-family and trade-pathway scholarships.",
+      "suggested_search_terms": "[union] local scholarship [city], [trade] association scholarship [state]"
+    }
+  ],
+  "metros": [
+    { "metro": "Philadelphia metro", "city": "Philadelphia", "state": "PA", "county": "Philadelphia" },
+    { "metro": "Pittsburgh metro", "city": "Pittsburgh", "state": "PA", "county": "Allegheny" },
+    { "metro": "Harrisburg / Central PA", "city": "Harrisburg", "state": "PA", "county": "Dauphin" },
+    { "metro": "Dallas–Fort Worth", "city": "Dallas", "state": "TX", "county": "Dallas" },
+    { "metro": "Houston metro", "city": "Houston", "state": "TX", "county": "Harris" },
+    { "metro": "Chicago metro", "city": "Chicago", "state": "IL", "county": "Cook" },
+    { "metro": "Atlanta metro", "city": "Atlanta", "state": "GA", "county": "Fulton" },
+    { "metro": "Phoenix metro", "city": "Phoenix", "state": "AZ", "county": "Maricopa" },
+    { "metro": "Minneapolis–St. Paul", "city": "Minneapolis", "state": "MN", "county": "Hennepin" },
+    { "metro": "Columbus OH", "city": "Columbus", "state": "OH", "county": "Franklin" },
+    { "metro": "Charlotte metro", "city": "Charlotte", "state": "NC", "county": "Mecklenburg" },
+    { "metro": "Denver metro", "city": "Denver", "state": "CO", "county": "Denver" }
+  ]
+}

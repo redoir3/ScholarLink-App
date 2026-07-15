@@ -1,9 +1,12 @@
-// components/LocalSearch.tsx
 'use client';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 
-  const US_STATES = [
+import { useState } from 'react';
+import { MapPin, Search } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
+const US_STATES = [
   { value: 'AL', label: 'Alabama' },
   { value: 'AK', label: 'Alaska' },
   { value: 'AZ', label: 'Arizona' },
@@ -54,69 +57,79 @@ import { useRouter } from 'next/navigation';
   { value: 'WV', label: 'West Virginia' },
   { value: 'WI', label: 'Wisconsin' },
   { value: 'WY', label: 'Wyoming' },
+  { value: 'DC', label: 'District of Columbia' },
 ];
 
 export default function LocalSearch() {
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
-    const handleSearch = () => {
+  const handleSearch = () => {
     if (!state || !city.trim()) {
       alert('Please select a state and enter a city or town');
       return;
     }
     const params = new URLSearchParams({
       city: city.trim(),
-      state: state,
-      mode: 'local'
+      state,
+      mode: 'local',
     });
-    window.location.href = `/scholarships?${params.toString()}`;  // Force full navigation
+    window.location.href = `/scholarships?${params.toString()}`;
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-      <h2 className="text-3xl font-bold text-gray-900 mb-2">Find Local Scholarships Near You</h2>
-      <p className="text-gray-600 mb-6">Smaller pools = higher chances. Build real connections with orgs.</p>
-      
-      <div className="space-y-4">
+    <div className="mx-auto max-w-md rounded-3xl border border-emerald-100 bg-white p-8 shadow-xl shadow-emerald-900/5">
+      <div className="mb-6 flex items-center gap-3">
+        <div className="flex size-12 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md">
+          <MapPin className="size-6" />
+        </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">State</label>
-          <select 
-            value={state} 
+          <h2 className="text-2xl font-bold text-gray-900">Near you</h2>
+          <p className="text-sm text-gray-600">Smaller pools = higher chances</p>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="state">State</Label>
+          <select
+            id="state"
+            value={state}
             onChange={(e) => setState(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
+            className="h-11 w-full rounded-xl border border-input bg-input/30 px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
-            <option value="">Select State</option>
-            {US_STATES.map(s => (
-              <option key={s.value} value={s.value}>{s.label}</option>
+            <option value="">Select state</option>
+            {US_STATES.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
             ))}
           </select>
         </div>
-        
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">City or Town</label>
-          <input 
-            type="text" 
-            value={city} 
+
+        <div className="space-y-2">
+          <Label htmlFor="city">City or town</Label>
+          <Input
+            id="city"
+            value={city}
             onChange={(e) => setCity(e.target.value)}
-            placeholder="e.g., Philadelphia or Glenshaw"
-            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500"
+            placeholder="e.g. Austin, Columbus, Philadelphia"
+            className="h-11 rounded-xl"
           />
         </div>
-        
-        <button 
+
+        <Button
           onClick={handleSearch}
-          disabled={loading || !state || !city.trim()}
-          className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3.5 rounded-xl transition"
+          disabled={!state || !city.trim()}
+          className="h-12 w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-base font-semibold"
         >
-          Search Local Scholarships
-        </button>
+          <Search className="size-4" />
+          Search local scholarships
+        </Button>
       </div>
-      
-      <p className="text-xs text-gray-500 mt-4 text-center">
-        Tip: Reach out to listed contacts to stand out and build relationships!
+
+      <p className="mt-4 text-center text-xs text-gray-500">
+        Tip: Reach out to listed contacts to stand out and build relationships.
       </p>
     </div>
   );

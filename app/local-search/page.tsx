@@ -1,22 +1,22 @@
-// app/local-search/page.tsx
 import LocalSearch from '@/components/LocalSearch';
+import PageHero from '@/components/PageHero';
 
 export default function LocalSearchPage() {
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-gray-900 mb-4">Local Scholarship Finder</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select your city and state to discover real, local scholarships nearby. 
-            Smaller applicant pools mean higher chances—and every opportunity includes a contact to reach out and build a genuine relationship.
-          </p>
-        </div>
-        
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-emerald-50/30">
+      <div className="mx-auto max-w-4xl space-y-10 px-4 py-10 sm:px-6">
+        <PageHero
+          badge="Discover nearby"
+          title="Local scholarship finder"
+          subtitle="Select your city and state to discover real awards nearby. Smaller applicant pools mean higher chances — and every opportunity is meant to include a contact you can reach."
+          imageSrc="/images/students-local.jpg"
+        />
+
         <LocalSearch />
-        
-        <div className="mt-12 text-center text-sm text-gray-500">
-          Pro Tip: After finding matches, use our Email Draft tool to introduce yourself professionally to the listed contact person.
+
+        <div className="rounded-2xl border border-blue-100 bg-white/80 p-5 text-center text-sm text-gray-600 shadow-sm">
+          Pro tip: After finding matches, use the email draft on each card to introduce yourself
+          professionally to the listed contact person.
         </div>
       </div>
     </div>
